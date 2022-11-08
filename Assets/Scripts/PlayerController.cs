@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
    [SerializeField] private float speed;
+   [SerializeField] private float gravityConstant;
    private PlayerInput _playerInput;
    private CharacterController _characterController;
 
@@ -14,8 +15,8 @@ public class PlayerController : MonoBehaviour
    private InputAction _jumpAction;
    
    
-   private bool _wasdDown = false;
-   private Vector2 _move;
+   private bool _wasdDown;
+   private Vector3 _moveByInput;
    private void Awake()
    {
       _playerInput = GetComponent<PlayerInput>();
@@ -46,23 +47,23 @@ public class PlayerController : MonoBehaviour
    private void OnWasdPressed(InputAction.CallbackContext context)
    {
       _wasdDown = true;
-      _move = context.ReadValue<Vector2>();
+      _moveByInput = context.ReadValue<Vector2>();
    }
    
    private void OnWasdReleased(InputAction.CallbackContext context)
    {
       _wasdDown = false;
-      _move = context.ReadValue<Vector2>();
+      _moveByInput = context.ReadValue<Vector2>();
    }
-   private void Move()
+   private void Move(Vector3 vec, float rate)
    {
-      var target = new Vector3(_move.x, _move.y, 0.0f);
-      var direction = target.normalized * (speed * Time.deltaTime);
+      var direction = vec * ( rate * Time.deltaTime);
       _characterController.Move(direction);
    }
 
    private void Update()
    {
-      if (_wasdDown) Move();
+      if (_wasdDown) Move(_moveByInput, speed);
+      if (!_characterController.isGrounded) Move(Vector3.down, gravityConstant);
    }
 }
