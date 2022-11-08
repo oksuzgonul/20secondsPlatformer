@@ -18,8 +18,9 @@ public class PlayerController : MonoBehaviour
    
    private bool _wasdDown;
    private Vector3 _moveByInput;
-   private bool _jumpInitiated;
-   
+   public bool _jumpInitiated;
+   private const int MaxJump = 2;
+   public int _jumpCount;
    private void Awake()
    {
       _playerInput = GetComponent<PlayerInput>();
@@ -44,14 +45,29 @@ public class PlayerController : MonoBehaviour
 
    private void Jump(InputAction.CallbackContext context)
    {
+      if (_jumpInitiated) return;
+      if (_jumpCount >= MaxJump)
+      {
+         StartCoroutine(WaitUntilLanded());
+         return;
+      }
       _jumpInitiated = true;
+      _jumpCount += 1;
       StartCoroutine(EndJump());
+   }
+
+   private IEnumerator WaitUntilLanded()
+   {
+      yield return new WaitUntil(() => _characterController.isGrounded);
+      _jumpCount = 0;
+      _jumpInitiated = false;
    }
 
    private IEnumerator EndJump()
    {
       yield return new WaitForSeconds(0.5f);
       _jumpInitiated = false;
+      StartCoroutine(WaitUntilLanded());
    }
 
    private void OnWasdPressed(InputAction.CallbackContext context)
