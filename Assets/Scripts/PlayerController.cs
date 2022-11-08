@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
    
    private bool _wasdDown;
    private Vector3 _moveByInput;
+   private bool _jumpInitiated;
    
    private void Awake()
    {
@@ -42,7 +44,14 @@ public class PlayerController : MonoBehaviour
 
    private void Jump(InputAction.CallbackContext context)
    {
-      Move(Vector3.up, jumpPower);
+      _jumpInitiated = true;
+      StartCoroutine(EndJump());
+   }
+
+   private IEnumerator EndJump()
+   {
+      yield return new WaitForSeconds(0.5f);
+      _jumpInitiated = false;
    }
 
    private void OnWasdPressed(InputAction.CallbackContext context)
@@ -63,6 +72,7 @@ public class PlayerController : MonoBehaviour
 
    private void Update()
    {
+      if (_jumpInitiated) Move(Vector3.up, jumpPower);
       if (_wasdDown) Move(_moveByInput, speed);
       if (!_characterController.isGrounded) Move(Vector3.down, gravityConstant);
    }
