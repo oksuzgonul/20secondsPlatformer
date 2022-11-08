@@ -510,7 +510,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  gravityConstant: 1
+  gravityConstant: 7
+  jumpPower: 300
 --- !u!1 &1017535144
 GameObject:
   m_ObjectHideFlags: 0

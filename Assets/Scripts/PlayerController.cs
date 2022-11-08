@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
    [SerializeField] private float speed;
    [SerializeField] private float gravityConstant;
+   [SerializeField] private float jumpPower;
    private PlayerInput _playerInput;
    private CharacterController _characterController;
 
@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
    
    private bool _wasdDown;
    private Vector3 _moveByInput;
+   
    private void Awake()
    {
       _playerInput = GetComponent<PlayerInput>();
@@ -39,21 +40,20 @@ public class PlayerController : MonoBehaviour
       _jumpAction.performed -= Jump;
    }
 
-   private void Jump(InputAction.CallbackContext obj)
+   private void Jump(InputAction.CallbackContext context)
    {
-      Debug.Log("Jump!");
+      Move(Vector3.up, jumpPower);
    }
 
    private void OnWasdPressed(InputAction.CallbackContext context)
    {
       _wasdDown = true;
-      _moveByInput = context.ReadValue<Vector2>();
+      _moveByInput = new Vector3( context.ReadValue<Vector2>().x, 0, 0);
    }
    
    private void OnWasdReleased(InputAction.CallbackContext context)
    {
       _wasdDown = false;
-      _moveByInput = context.ReadValue<Vector2>();
    }
    private void Move(Vector3 vec, float rate)
    {
