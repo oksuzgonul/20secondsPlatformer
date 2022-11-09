@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
    }
    private IEnumerator WaitUntilLanded()
    {
-      yield return new WaitUntil(() => _characterController.isGrounded);
+      yield return new WaitUntil(IsPlayerGrounded);
       _jumpCount = 0;
       _jumpInitiated = false;
    }
@@ -99,6 +99,11 @@ public class PlayerController : MonoBehaviour
    {
       if (_jumpInitiated) Move(Vector3.up, jumpPower);
       if (_wasdDown) Move(_moveByInput, speed);
-      if (!_characterController.isGrounded) Move(Vector3.down, gravityConstant);
+      if (!IsPlayerGrounded()) Move(Vector3.down, gravityConstant);
+   }
+
+   public bool IsPlayerGrounded()
+   {
+      return _characterController.isGrounded;
    }
 }
