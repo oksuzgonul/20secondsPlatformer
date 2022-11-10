@@ -22,8 +22,8 @@ public class TimerManager : MonoBehaviour
     
     //TODO: Add moving platforms
     //TODO: Convert platforms to prefab
-    //TODO: Add character art and animation
     //TODO: Add environment art
+    //TODO: Add character art and animation
     //TODO: Better jump mechanic
 
     void Start()
@@ -47,7 +47,7 @@ public class TimerManager : MonoBehaviour
         timerText.SetText(_current.ToString());
         buttonObject.SetActive(true);
     }
-    private void Update()
+    private void FixedUpdate()
     {
         if (_playerController.IsPlayerGrounded())
         {
