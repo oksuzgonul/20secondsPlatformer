@@ -32,7 +32,7 @@ public class MovingPlatform : MonoBehaviour
         _isPaused = paused;
     }
 
-    /*private void OnCollisionEnter2D(Collision2D col)
+    private void OnCollisionEnter2D(Collision2D col)
     {
         col.transform.SetParent(transform);
     }
@@ -40,5 +40,5 @@ public class MovingPlatform : MonoBehaviour
     private void OnCollisionExit2D(Collision2D other)
     {
         other.transform.SetParent(null);
-    }*/
+    }
 }

@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
    [SerializeField] private float speed;
    [SerializeField] private float jumpPower;
+   [SerializeField] private LayerMask groundMask;
    private PlayerInput _playerInput;
    private Rigidbody2D _rB;
    //move controls are stored here
@@ -15,6 +16,9 @@ public class PlayerController : MonoBehaviour
    private const int MaxJump = 2;
    private int _jumpCount;
    private Coroutine _waitLandCoroutine;
+   //box collider to detect grounded
+   private BoxCollider2D _boxCol;
+   private Bounds _boxBounds;
 
    public bool isPlayerGrounded;
    private void Awake()
@@ -23,6 +27,8 @@ public class PlayerController : MonoBehaviour
       _moveAction = _playerInput.actions["Move"];
       _jumpAction = _playerInput.actions["Jump"];
       _rB = GetComponent<Rigidbody2D>();
+      _boxCol = GetComponent<BoxCollider2D>();
+      _boxBounds = _boxCol.bounds;
    }
    private void OnEnable()
    {
@@ -80,6 +86,6 @@ public class PlayerController : MonoBehaviour
    }
    public bool IsPlayerGrounded()
    {
-      return _rB.velocity.y < 0.1f;
+      return Physics2D.BoxCast(_boxBounds.center, _boxBounds.size, 0f, Vector2.down, .1f, groundMask);
    }
 }
