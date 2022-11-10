@@ -20,11 +20,9 @@ public class TimerManager : MonoBehaviour
     private Vector3 _initialPosition;
     private int _score;
     
-    //TODO: Add moving platforms
     //TODO: Convert platforms to prefab
     //TODO: Add environment art
     //TODO: Add character art and animation
-    //TODO: Better jump mechanic
 
     void Start()
     {
