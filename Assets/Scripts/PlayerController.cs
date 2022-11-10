@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour
    private Coroutine _waitLandCoroutine;
    //box collider to detect grounded
    private BoxCollider2D _boxCol;
-   private Bounds _boxBounds;
 
    public bool isPlayerGrounded;
    private void Awake()
@@ -28,7 +27,6 @@ public class PlayerController : MonoBehaviour
       _jumpAction = _playerInput.actions["Jump"];
       _rB = GetComponent<Rigidbody2D>();
       _boxCol = GetComponent<BoxCollider2D>();
-      _boxBounds = _boxCol.bounds;
    }
    private void OnEnable()
    {
@@ -55,6 +53,7 @@ public class PlayerController : MonoBehaviour
    {
       StopAllCoroutines();
       _jumpCount = 0;
+      _moveByInput = Vector3.zero;
    }
    private void Jump(InputAction.CallbackContext context)
    {
@@ -86,6 +85,6 @@ public class PlayerController : MonoBehaviour
    }
    public bool IsPlayerGrounded()
    {
-      return Physics2D.BoxCast(_boxBounds.center, _boxBounds.size, 0f, Vector2.down, .1f, groundMask);
+      return Physics2D.BoxCast(_boxCol.transform.position, _boxCol.size, 0f, Vector2.down, .1f, groundMask);
    }
 }
