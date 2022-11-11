@@ -321,6 +321,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -363,7 +364,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 5.8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -387,13 +388,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: -10}
+  m_LocalPosition: {x: 0, y: 0.8, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa1564e3a4bd7a44c8592e1356f0c447, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 896251407}
+  initialYPosition: 0.8
 --- !u!1001 &552927049
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -419,7 +434,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7349712930190747441, guid: 35c0239cadf63ac46ab2e8f6173c1cce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.68
+      value: -10.9
       objectReference: {fileID: 0}
     - target: {fileID: 7349712930190747441, guid: 35c0239cadf63ac46ab2e8f6173c1cce, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1185,7 +1200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 107794657059676819, guid: 2b63cfee0b94cec4d86e8aa8e2f77272, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 107794657059676819, guid: 2b63cfee0b94cec4d86e8aa8e2f77272, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2052,7 +2067,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7349712930190747441, guid: 35c0239cadf63ac46ab2e8f6173c1cce, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.04
+      value: 10.91
       objectReference: {fileID: 0}
     - target: {fileID: 7349712930190747441, guid: 35c0239cadf63ac46ab2e8f6173c1cce, type: 3}
       propertyPath: m_LocalPosition.y
