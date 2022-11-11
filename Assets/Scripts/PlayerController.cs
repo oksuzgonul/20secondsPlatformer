@@ -19,7 +19,6 @@ public class PlayerController : MonoBehaviour
    //box collider to detect grounded
    private BoxCollider2D _boxCol;
 
-   public bool isPlayerGrounded;
    private void Awake()
    {
       _playerInput = GetComponent<PlayerInput>();
@@ -80,7 +79,6 @@ public class PlayerController : MonoBehaviour
    }
    private void FixedUpdate()
    {
-      isPlayerGrounded = IsPlayerGrounded();
       _rB.velocity = new Vector2(_moveByInput.x * speed, _rB.velocity.y);
    }
    public bool IsPlayerGrounded()

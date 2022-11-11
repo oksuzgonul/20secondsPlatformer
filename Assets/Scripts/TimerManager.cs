@@ -8,9 +8,9 @@ public class TimerManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private GameObject scorePanel;
-    [SerializeField] private GameObject buttonObject;
+    [SerializeField] private GameObject timerButtonObj;
     [SerializeField] private GameObject playerObject;
-    [SerializeField] private GameObject closeButton;
+    [SerializeField] private GameObject closeButtonObj;
     private int _current;
     private Button _timerButton;
     private Button _closeButton;
@@ -20,16 +20,18 @@ public class TimerManager : MonoBehaviour
     private Vector3 _initialPosition;
     private int _score;
     
-    //TODO: Convert platforms to prefab
-    //TODO: Add environment art
+    
     //TODO: Add character art and animation
-
+    //TODO: Camera should loosely follow the character
+    //TODO: Make fonts
+    //TODO: Add sound?
+    
     void Start()
     {
         //Set buttons
-        _timerButton = buttonObject.GetComponent<Button>();
+        _timerButton = timerButtonObj.GetComponent<Button>();
         _timerButton.onClick.AddListener(StartGame);
-        _closeButton = closeButton.GetComponent<Button>();
+        _closeButton = closeButtonObj.GetComponent<Button>();
         _closeButton.onClick.AddListener(CloseScore);
         //Deactivate player controllers
         _playerController = playerObject.GetComponent<PlayerController>();
@@ -37,13 +39,13 @@ public class TimerManager : MonoBehaviour
         //Record the initial player position
         _initialPosition = playerObject.transform.position;
         _score = 0;
+        Time.timeScale = 0;
     }
-    private IEnumerator ResetTimer()
+    private void ResetTimer()
     {
-        yield return new WaitForSeconds(1);
         _current = 0;
         timerText.SetText(_current.ToString());
-        buttonObject.SetActive(true);
+        timerButtonObj.SetActive(true);
     }
     private void FixedUpdate()
     {
@@ -57,9 +59,9 @@ public class TimerManager : MonoBehaviour
     private void EndGame()
     {
         _isRunning = false;
-        StopCoroutine(_coroutine);
-        StartCoroutine(ResetTimer());
         _playerController.enabled = false;
+        StopCoroutine(_coroutine);
+        Time.timeScale = 0;
         ShowScore();
     }
 
@@ -75,6 +77,7 @@ public class TimerManager : MonoBehaviour
         _score = 0;
         scorePanel.SetActive(false);
         playerObject.transform.position = _initialPosition;
+        ResetTimer();
     }
 
     private void StartGame()
@@ -83,8 +86,9 @@ public class TimerManager : MonoBehaviour
         _current = 0;
         _isRunning = true;
         _coroutine = StartCoroutine(SecondUpdate());
-        buttonObject.SetActive(false);
+        timerButtonObj.SetActive(false);
         _playerController.enabled = true;
+        Time.timeScale = 1;
     }
     private IEnumerator SecondUpdate()
     {
