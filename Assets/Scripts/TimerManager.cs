@@ -20,7 +20,6 @@ public class TimerManager : MonoBehaviour
     private Vector3 _initialPosition;
     private int _score;
 
-    //TODO: Add button art
     //TODO: Add footstep and jump sounds
     //TODO: Add game end, final countdown etc sounds
     //TODO: Reset the platforms on restart
