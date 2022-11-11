@@ -20,9 +20,14 @@ public class TimerManager : MonoBehaviour
     private Vector3 _initialPosition;
     private int _score;
 
-    //TODO: Camera should loosely follow the character
-    //TODO: Make fonts
-    //TODO: Add sound?
+    //TODO: Add button art
+    //TODO: Add footstep and jump sounds
+    //TODO: Add game end, final countdown etc sounds
+    //TODO: Reset the platforms on restart
+    //TODO: Prevent getting stuck on sides of platforms
+    //TODO: Prevent being pushed out of bounds by platforms
+    //TODO: Add disappearing/reappearing platforms
+    //TODO: Add platforms that move after player steps on
     
     void Start()
     {
