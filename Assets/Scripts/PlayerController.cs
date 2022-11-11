@@ -18,6 +18,12 @@ public class PlayerController : MonoBehaviour
    private Coroutine _waitLandCoroutine;
    //box collider to detect grounded
    private BoxCollider2D _boxCol;
+   //animator stuff
+   private Animator _animator;
+   private static readonly int IsRunning = Animator.StringToHash("IsRunning");
+   private static readonly int IsRight = Animator.StringToHash("IsRight");
+   public float xValue;
+   private static readonly int IsInAir = Animator.StringToHash("IsInAir");
 
    private void Awake()
    {
@@ -26,6 +32,7 @@ public class PlayerController : MonoBehaviour
       _jumpAction = _playerInput.actions["Jump"];
       _rB = GetComponent<Rigidbody2D>();
       _boxCol = GetComponent<BoxCollider2D>();
+      _animator = GetComponent<Animator>();
    }
    private void OnEnable()
    {
@@ -63,6 +70,7 @@ public class PlayerController : MonoBehaviour
          return;
       }
       _rB.velocity += Vector2.up * jumpPower;
+      _animator.Play("Jump");
       _jumpCount += 1;
    }
    private IEnumerator WaitUntilLanded()
@@ -79,8 +87,28 @@ public class PlayerController : MonoBehaviour
    }
    private void FixedUpdate()
    {
+      xValue = _moveByInput.x;
       _rB.velocity = new Vector2(_moveByInput.x * speed, _rB.velocity.y);
+      SetAnimParams();
    }
+
+   private void SetAnimParams()
+   {
+      _animator.SetBool(IsInAir, !IsPlayerGrounded());
+      _animator.SetBool(IsRunning, _moveByInput.x != 0 && IsPlayerGrounded());
+      FlipAnimation(_moveByInput.x > 0);
+   }
+
+   private void FlipAnimation(bool isRight)
+   {
+      var scale = transform.localScale;
+      if ((scale.x > 0 && isRight)||(scale.x < 0 && !isRight))
+      {
+         scale.x *= -1;
+      }
+      transform.localScale = scale;
+   }
+
    public bool IsPlayerGrounded()
    {
       return Physics2D.BoxCast(_boxCol.transform.position, _boxCol.size, 0f, Vector2.down, .1f, groundMask);

@@ -19,9 +19,7 @@ public class TimerManager : MonoBehaviour
     private PlayerController _playerController;
     private Vector3 _initialPosition;
     private int _score;
-    
-    
-    //TODO: Add character art and animation
+
     //TODO: Camera should loosely follow the character
     //TODO: Make fonts
     //TODO: Add sound?
