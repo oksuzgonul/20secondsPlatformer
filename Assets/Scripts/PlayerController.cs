@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,8 +12,6 @@ public class PlayerController : MonoBehaviour
    private InputAction _moveAction;
    private InputAction _jumpAction;
    private Vector3 _moveByInput;
-   private const int MaxJump = 2;
-   private int _jumpCount;
    private Coroutine _waitLandCoroutine;
    //box collider to detect grounded
    private BoxCollider2D _boxCol;
@@ -41,8 +38,8 @@ public class PlayerController : MonoBehaviour
    }
    private void OnDisable()
    {
-      ResetController();
       DisableControls();
+      ResetController();
    }
    private void EnableControls()
    {
@@ -59,25 +56,16 @@ public class PlayerController : MonoBehaviour
    private void ResetController()
    {
       StopAllCoroutines();
-      _jumpCount = 0;
       _moveByInput = Vector3.zero;
+      _animator.Rebind();
+      _animator.Update(0f);
+      FlipAnimation(false);
    }
    private void Jump(InputAction.CallbackContext context)
    {
-      if (_jumpCount >= MaxJump)
-      {
-         if (_waitLandCoroutine != null) StopCoroutine(_waitLandCoroutine);
-         _waitLandCoroutine = StartCoroutine(WaitUntilLanded());
-         return;
-      }
+      if (!IsPlayerGrounded()) return;
       _rB.velocity += Vector2.up * jumpPower;
       _animator.Play("Jump");
-      _jumpCount += 1;
-   }
-   private IEnumerator WaitUntilLanded()
-   {
-      yield return new WaitUntil(IsPlayerGrounded);
-      _jumpCount = 0;
    }
    private void Move(InputAction.CallbackContext context)
    {
