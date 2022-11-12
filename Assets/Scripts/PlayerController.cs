@@ -21,9 +21,9 @@ public class PlayerController : MonoBehaviour
    //animator stuff
    private Animator _animator;
    private static readonly int IsRunning = Animator.StringToHash("IsRunning");
-   private static readonly int IsRight = Animator.StringToHash("IsRight");
-   public float xValue;
    private static readonly int IsInAir = Animator.StringToHash("IsInAir");
+   //sound stuff
+   private AudioSource _audioSource;
 
    private void Awake()
    {
@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
       _rB = GetComponent<Rigidbody2D>();
       _boxCol = GetComponent<BoxCollider2D>();
       _animator = GetComponent<Animator>();
+      _audioSource = GetComponent<AudioSource>();
    }
    private void OnEnable()
    {
@@ -87,7 +88,6 @@ public class PlayerController : MonoBehaviour
    }
    private void FixedUpdate()
    {
-      xValue = _moveByInput.x;
       _rB.velocity = new Vector2(_moveByInput.x * speed, _rB.velocity.y);
       SetAnimParams();
    }
@@ -112,5 +112,10 @@ public class PlayerController : MonoBehaviour
    public bool IsPlayerGrounded()
    {
       return Physics2D.BoxCast(_boxCol.transform.position, _boxCol.size, 0f, Vector2.down, .1f, groundMask);
+   }
+
+   public void PlayStepSound()
+   {
+      _audioSource.Play(0);
    }
 }

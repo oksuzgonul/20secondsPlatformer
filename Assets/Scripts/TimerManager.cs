@@ -11,6 +11,7 @@ public class TimerManager : MonoBehaviour
     [SerializeField] private GameObject timerButtonObj;
     [SerializeField] private GameObject playerObject;
     [SerializeField] private GameObject closeButtonObj;
+    [SerializeField] private GameObject cameraController;
     private int _current;
     private Button _timerButton;
     private Button _closeButton;
@@ -19,15 +20,8 @@ public class TimerManager : MonoBehaviour
     private PlayerController _playerController;
     private Vector3 _initialPosition;
     private int _score;
+    private GameObject[] _platforms;
 
-    //TODO: Add footstep and jump sounds
-    //TODO: Add game end, final countdown etc sounds
-    //TODO: Reset the platforms on restart
-    //TODO: Prevent getting stuck on sides of platforms
-    //TODO: Prevent being pushed out of bounds by platforms
-    //TODO: Add disappearing/reappearing platforms
-    //TODO: Add platforms that move after player steps on
-    
     void Start()
     {
         //Set buttons
@@ -42,6 +36,8 @@ public class TimerManager : MonoBehaviour
         _initialPosition = playerObject.transform.position;
         _score = 0;
         Time.timeScale = 0;
+        //Capture all platforms
+        _platforms = GameObject.FindGameObjectsWithTag("Platform");
     }
     private void ResetTimer()
     {
@@ -79,7 +75,10 @@ public class TimerManager : MonoBehaviour
         _score = 0;
         scorePanel.SetActive(false);
         playerObject.transform.position = _initialPosition;
+        playerObject.GetComponent<Animator>().Play("idle");
+        cameraController.GetComponent<FollowCamera>().ResetCamera();
         ResetTimer();
+        ResetAllPlatforms();
     }
 
     private void StartGame()
@@ -99,6 +98,14 @@ public class TimerManager : MonoBehaviour
             yield return new WaitForSeconds(1);
             _current++;
             timerText.SetText(_current.ToString());
+        }
+    }
+
+    private void ResetAllPlatforms()
+    {
+        foreach (var platform in _platforms)
+        {
+            platform.GetComponent<MovingPlatform>()?.Reset();
         }
     }
 }
