@@ -75,7 +75,6 @@ public class TimerManager : MonoBehaviour
         _score = 0;
         scorePanel.SetActive(false);
         playerObject.transform.position = _initialPosition;
-        playerObject.GetComponent<Animator>().Play("idle");
         cameraController.GetComponent<FollowCamera>().ResetCamera();
         ResetTimer();
         ResetAllPlatforms();

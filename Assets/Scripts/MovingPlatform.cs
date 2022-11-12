@@ -42,6 +42,8 @@ public class MovingPlatform : MonoBehaviour
     {
         gameObject.transform.position = _initialPosition;
         _offTime = Time.time;
+        _hasCollided = false;
+        if (isHiddenPlatform) {SetPlatformA(0);}
     }
 
     private void OnCollisionEnter2D(Collision2D col)
