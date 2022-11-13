@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
 
    public bool IsPlayerGrounded()
    {
-      return Physics2D.BoxCast(_boxCol.transform.position, _boxCol.size, 0f, Vector2.down, .1f, groundMask);
+      return Physics2D.BoxCast(_boxCol.transform.position, _boxCol.size/2, 0f, Vector2.down, .1f, groundMask);
    }
 
    public void PlayStepSound()

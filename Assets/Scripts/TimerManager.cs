@@ -12,6 +12,7 @@ public class TimerManager : MonoBehaviour
     [SerializeField] private GameObject playerObject;
     [SerializeField] private GameObject closeButtonObj;
     [SerializeField] private GameObject cameraController;
+    [SerializeField] private TextMeshProUGUI explanationText;
     private int _current;
     private Button _timerButton;
     private Button _closeButton;
@@ -52,19 +53,21 @@ public class TimerManager : MonoBehaviour
             var currScore = (int)(_playerController.transform.position.y - _initialPosition.y ) * 100;
             _score = Math.Max(_score, currScore);
         }
-        if (timerText.text == "20") EndGame();
+        if (timerText.text == "20") EndGame(false);
     }
-    private void EndGame()
+    public void EndGame(bool isWon)
     {
         _isRunning = false;
         _playerController.enabled = false;
         StopCoroutine(_coroutine);
         Time.timeScale = 0;
-        ShowScore();
+        ShowScore(isWon);
     }
 
-    private void ShowScore()
+    private void ShowScore(bool isWon)
     {
+        explanationText.text = isWon ? "You made it to the Gate!" : "Time is up!";
+        _score = isWon ? _score + 5000 : _score;
         scorePanel.SetActive(true);
         scoreText.text = "Score: " + _score;
     }
