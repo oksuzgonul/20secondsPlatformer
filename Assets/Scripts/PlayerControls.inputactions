@@ -177,6 +177,17 @@
                 },
                 {
                     "name": "",
+                    "id": "d52ce374-7714-4536-bb0f-81f490c398b6",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c1f7a91b-d0fd-4a62-997e-7fb9b69bf235",
                     "path": "<Gamepad>/rightStick",
                     "interactions": "",
@@ -270,6 +281,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4c46c251-c44d-4cbb-9b4e-eb818a0bc960",
+                    "path": "<Touchscreen>/touch0/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false

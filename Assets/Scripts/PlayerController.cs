@@ -1,11 +1,15 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 public class PlayerController : MonoBehaviour
 {
    [SerializeField] private float speed;
    [SerializeField] private float jumpPower;
    [SerializeField] private LayerMask groundMask;
+   [SerializeField] private float screenWrapSize = 4.5f;
+   [SerializeField] private AudioSource walkAudio;
+   [SerializeField] private AudioSource headAudio;
+   [SerializeField] private AudioSource feetAudio;
+   [SerializeField] private Camera cameraMain;
    private PlayerInput _playerInput;
    private Rigidbody2D _rB;
    //move controls are stored here
@@ -19,18 +23,22 @@ public class PlayerController : MonoBehaviour
    private Animator _animator;
    private static readonly int IsRunning = Animator.StringToHash("IsRunning");
    private static readonly int IsInAir = Animator.StringToHash("IsInAir");
-   //sound stuff
-   private AudioSource _audioSource;
-
    private void Awake()
    {
+      SetScreenWrapSize();
       _playerInput = GetComponent<PlayerInput>();
       _moveAction = _playerInput.actions["Move"];
       _jumpAction = _playerInput.actions["Jump"];
       _rB = GetComponent<Rigidbody2D>();
       _boxCol = GetComponent<BoxCollider2D>();
       _animator = GetComponent<Animator>();
-      _audioSource = GetComponent<AudioSource>();
+   }
+
+   private void SetScreenWrapSize()
+   {
+      Vector2 screenBounds =
+         cameraMain.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, cameraMain.transform.position.z));
+      screenWrapSize = screenBounds.x;
    }
    private void OnEnable()
    {
@@ -60,6 +68,7 @@ public class PlayerController : MonoBehaviour
       _animator.Rebind();
       _animator.Update(0f);
       FlipAnimation(false);
+      _rB.velocity = Vector2.zero;
    }
    private void Jump(InputAction.CallbackContext context)
    {
@@ -76,7 +85,12 @@ public class PlayerController : MonoBehaviour
    }
    private void FixedUpdate()
    {
+      Vector3 p = transform.position;
       _rB.velocity = new Vector2(_moveByInput.x * speed, _rB.velocity.y);
+      if(p.x < -screenWrapSize || p.x > screenWrapSize) {
+         float xPos = Mathf.Clamp(transform.position.x, screenWrapSize, -screenWrapSize);
+         transform.position = new Vector3(xPos, p.y, p.z);
+      }
       SetAnimParams();
    }
 
@@ -104,6 +118,16 @@ public class PlayerController : MonoBehaviour
 
    public void PlayStepSound()
    {
-      _audioSource.Play(0);
+      walkAudio.Play(0);
+   }
+
+   public void PlayCollideSound(bool isLanding)
+   {
+      if (isLanding)
+      {
+         feetAudio.Play(0);
+         return;
+      }
+      headAudio.Play(0);
    }
 }
